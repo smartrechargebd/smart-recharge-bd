@@ -16,78 +16,55 @@ height:100%;
 }
 
 body{
-font-family:Segoe UI,sans-serif;
-background:linear-gradient(135deg,#0f2027,#1a2a33,#16222a);
+font-family:Segoe UI, sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 display:flex;
 justify-content:center;
 align-items:center;
-min-height:100dvh;
+min-height:100vh;
 color:white;
+overflow:hidden;
 }
 
-/* Background glow */
-body::before{
-content:"";
-position:absolute;
-width:400px;
-height:400px;
-background:radial-gradient(circle,#00e67655,transparent);
-top:-100px;
-left:-100px;
-z-index:0;
-}
-
-body::after{
-content:"";
-position:absolute;
-width:400px;
-height:400px;
-background:radial-gradient(circle,#00e67633,transparent);
-bottom:-100px;
-right:-100px;
-z-index:0;
-}
-
-.wrapper{
+.login-container{
 width:100%;
 padding:20px;
-position:relative;
-z-index:1;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .login-box{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-padding:40px 25px;
-border-radius:20px;
 width:100%;
 max-width:380px;
-margin:auto;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:40px 25px;
 text-align:center;
-box-shadow:0 0 40px rgba(0,255,150,.3);
+box-shadow:0 0 30px rgba(0,255,150,0.25);
 }
 
 .logo{
 font-size:22px;
 font-weight:bold;
-margin-bottom:10px;
-letter-spacing:1px;
-color:#00e676;
+color:#00ff99;
+margin-bottom:8px;
 }
 
 .subtitle{
-margin-bottom:20px;
 opacity:.8;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:14px;
-margin:10px 0;
 border:none;
 border-radius:10px;
-outline:none;
+margin:10px 0;
 font-size:15px;
+outline:none;
 }
 
 button{
@@ -98,8 +75,8 @@ border-radius:10px;
 background:#00e676;
 color:black;
 font-weight:bold;
-cursor:pointer;
 font-size:16px;
+cursor:pointer;
 transition:.3s;
 }
 
@@ -117,7 +94,7 @@ opacity:.6;
 </head>
 <body>
 
-<div class="wrapper">
+<div class="login-container">
 <div class="login-box">
 
 <div class="logo">⚡ Smart Recharge BD</div>
