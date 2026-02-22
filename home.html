@@ -2,23 +2,99 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home</title>
+<title>Smart Recharge BD</title>
+
 <style>
-body{margin:0;font-family:Segoe UI;background:#0f2027;color:white;padding:20px;}
-.header{display:flex;justify-content:space-between;margin-bottom:20px;}
-.card{background:#1b2b34;padding:15px;margin:15px 0;border-radius:10px;position:relative;}
-.badge{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:20px;font-size:12px;}
-.hot{background:red;}
-.offer{background:orange;}
-.price{color:#00ff99;font-weight:bold;}
-button{padding:8px 12px;border:none;border-radius:6px;background:#00e676;cursor:pointer;}
-.logout{background:red;color:white;}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
+color:white;
+min-height:100vh;
+padding:20px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo{
+font-weight:bold;
+font-size:18px;
+color:#00ff99;
+}
+
+.logout{
+background:red;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+padding:20px;
+margin:20px 0;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,255,150,0.15);
+position:relative;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-3px);
+box-shadow:0 0 35px rgba(0,255,150,0.3);
+}
+
+.badge{
+position:absolute;
+top:15px;
+left:15px;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+.hot{background:#ff1744;}
+.offer{background:#ff9100;}
+
+.price{
+color:#00ff99;
+font-size:18px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.buy{
+margin-top:15px;
+background:#00e676;
+border:none;
+padding:10px;
+border-radius:10px;
+width:100%;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.buy:hover{
+background:#00c853;
+}
 </style>
 </head>
+
 <body>
 
 <div class="header">
-<div>⚡ Smart Recharge BD</div>
+<div class="logo">⚡ Smart Recharge BD</div>
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
@@ -48,7 +124,7 @@ ${p.badge?`<span class="badge ${p.badge.toLowerCase()}">${p.badge}</span>`:""}
 <h4>${p.title}</h4>
 <p>${p.details}</p>
 <p class="price">৳${p.price}</p>
-<button onclick="buy(${i})">Buy Now</button>
+<button class="buy" onclick="buy(${i})">Buy Now</button>
 </div>
 `;
 });
