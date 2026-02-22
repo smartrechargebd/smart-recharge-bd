@@ -3,29 +3,68 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home</title>
-<link rel="stylesheet" href="css/style.css">
+<style>
+body{margin:0;font-family:Segoe UI;background:#0f2027;color:white;padding:20px;}
+.header{display:flex;justify-content:space-between;margin-bottom:20px;}
+.card{background:#1b2b34;padding:15px;margin:15px 0;border-radius:10px;position:relative;}
+.badge{position:absolute;top:10px;left:10px;padding:4px 10px;border-radius:20px;font-size:12px;}
+.hot{background:red;}
+.offer{background:orange;}
+.price{color:#00ff99;font-weight:bold;}
+button{padding:8px 12px;border:none;border-radius:6px;background:#00e676;cursor:pointer;}
+.logout{background:red;color:white;}
+</style>
 </head>
 <body>
 
-<header style="padding:15px;background:#111;display:flex;justify-content:space-between">
-<div>Smart Recharge BD</div>
-<button onclick="logout()">Logout</button>
-</header>
-
-<div style="padding:20px">
-<h3>Welcome User</h3>
-<p>Products coming next...</p>
+<div class="header">
+<div>⚡ Smart Recharge BD</div>
+<button class="logout" onclick="logout()">Logout</button>
 </div>
+
+<h3>Available Packages</h3>
+<div id="productList"></div>
 
 <script>
 if(sessionStorage.getItem("role")!=="user"){
 window.location="index.html";
 }
 
+let products=JSON.parse(localStorage.getItem("products"))||[
+{title:"30 Taka Card",price:28,details:"30 Minutes - 3 Days",badge:"HOT"},
+{title:"50 Taka Card",price:48,details:"50 Minutes - 5 Days",badge:""},
+{title:"100 Taka Card",price:95,details:"100 Minutes - 7 Days",badge:"OFFER"}
+];
+
+localStorage.setItem("products",JSON.stringify(products));
+
+function display(){
+let box=document.getElementById("productList");
+box.innerHTML="";
+products.forEach((p,i)=>{
+box.innerHTML+=`
+<div class="card">
+${p.badge?`<span class="badge ${p.badge.toLowerCase()}">${p.badge}</span>`:""}
+<h4>${p.title}</h4>
+<p>${p.details}</p>
+<p class="price">৳${p.price}</p>
+<button onclick="buy(${i})">Buy Now</button>
+</div>
+`;
+});
+}
+
+function buy(i){
+localStorage.setItem("selectedIndex",i);
+window.location="payment.html";
+}
+
 function logout(){
 sessionStorage.clear();
 window.location="index.html";
 }
+
+display();
 </script>
 
 </body>
