@@ -2,30 +2,174 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
-<link rel="stylesheet" href="css/style.css">
+<title>Admin Dashboard</title>
+
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:#0f2027;
+color:white;
+padding:20px;
+}
+
+h2{
+color:#00ff99;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:5px 0;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+margin:5px 0;
+}
+
+.add-btn{background:#00e676;}
+.edit-btn{background:orange;}
+.delete-btn{background:red;color:white;}
+
+.card{
+background:#1b2b34;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+}
+
+.badge{
+padding:3px 8px;
+border-radius:20px;
+font-size:12px;
+}
+
+.hot{background:red;}
+.offer{background:orange;}
+</style>
 </head>
+
 <body>
 
-<header style="padding:15px;background:#111;display:flex;justify-content:space-between">
-<div>Admin Dashboard</div>
-<button onclick="logout()">Logout</button>
-</header>
+<h2>Admin Dashboard</h2>
 
-<div style="padding:20px">
-<h3>Welcome Admin</h3>
-<p>Product management coming next...</p>
-</div>
+<h3>Add / Edit Product</h3>
+
+<input id="title" placeholder="Title">
+<input id="price" placeholder="Price">
+<input id="details" placeholder="Details">
+<select id="badge">
+<option value="">No Badge</option>
+<option value="HOT">HOT</option>
+<option value="OFFER">OFFER</option>
+</select>
+
+<button class="add-btn" onclick="saveProduct()">Save Product</button>
+
+<hr>
+
+<h3>All Products</h3>
+<div id="productList"></div>
 
 <script>
-if(sessionStorage.getItem("role")!=="admin"){
-window.location="index.html";
+
+let editIndex = null;
+
+let products = JSON.parse(localStorage.getItem("products")) || [
+{
+title:"30 Taka Card",
+price:28,
+details:"30 Minutes - 3 Days",
+badge:"HOT"
+}
+];
+
+function saveData(){
+localStorage.setItem("products",JSON.stringify(products));
 }
 
-function logout(){
-sessionStorage.clear();
-window.location="index.html";
+function displayProducts(){
+let box=document.getElementById("productList");
+box.innerHTML="";
+
+products.forEach((p,i)=>{
+
+box.innerHTML+=`
+<div class="card">
+${p.badge ? `<span class="badge ${p.badge.toLowerCase()}">${p.badge}</span>`:""}
+<h4>${p.title}</h4>
+<p>${p.details}</p>
+<p>৳${p.price}</p>
+
+<button class="edit-btn" onclick="editProduct(${i})">Edit</button>
+<button class="delete-btn" onclick="deleteProduct(${i})">Delete</button>
+</div>
+`;
+
+});
+
 }
+
+function saveProduct(){
+
+let title=document.getElementById("title").value;
+let price=document.getElementById("price").value;
+let details=document.getElementById("details").value;
+let badge=document.getElementById("badge").value;
+
+if(editIndex===null){
+
+products.push({title,price,details,badge});
+
+}else{
+
+products[editIndex]={title,price,details,badge};
+editIndex=null;
+
+}
+
+saveData();
+displayProducts();
+clearForm();
+
+}
+
+function editProduct(i){
+
+let p=products[i];
+
+document.getElementById("title").value=p.title;
+document.getElementById("price").value=p.price;
+document.getElementById("details").value=p.details;
+document.getElementById("badge").value=p.badge;
+
+editIndex=i;
+
+}
+
+function deleteProduct(i){
+
+products.splice(i,1);
+saveData();
+displayProducts();
+
+}
+
+function clearForm(){
+document.getElementById("title").value="";
+document.getElementById("price").value="";
+document.getElementById("details").value="";
+document.getElementById("badge").value="";
+}
+
+displayProducts();
+
 </script>
 
 </body>
