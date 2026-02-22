@@ -1,51 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Smart Recharge BD</title>
+
 <style>
-body{
-margin:0;
-font-family:Segoe UI;
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html,body{
+height:100%;
 background:#0f2027;
-color:white;
+}
+
+body{
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+min-height:100vh;
+min-height:100dvh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+color:white;
 }
-.box{
-background:#1b2b34;
-padding:40px;
-border-radius:15px;
-width:90%;
-max-width:350px;
+
+.container{
+width:100%;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+.login-box{
+width:100%;
+max-width:380px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+padding:40px 25px;
+border-radius:20px;
 text-align:center;
+box-shadow:0 0 30px rgba(0,255,150,.3);
 }
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#00ff99;
+margin-bottom:10px;
+}
+
+.subtitle{
+opacity:.8;
+margin-bottom:20px;
+}
+
 input{
 width:100%;
-padding:12px;
+padding:14px;
 margin:10px 0;
 border:none;
-border-radius:8px;
+border-radius:10px;
+font-size:15px;
 }
+
 button{
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#00e676;
+color:black;
 font-weight:bold;
 cursor:pointer;
+font-size:16px;
+}
+
+.footer{
+margin-top:20px;
+font-size:12px;
+opacity:.6;
 }
 </style>
 </head>
+
 <body>
 
-<div class="box">
-<h2>⚡ Smart Recharge BD</h2>
-<input type="text" id="loginInput" placeholder="Enter 11 digit number or admin password">
-<button onclick="login()">Login</button>
+<div class="container">
+<div class="login-box">
+
+<div class="logo">⚡ Smart Recharge BD</div>
+<div class="subtitle">Secure Login</div>
+
+<input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
+<button onclick="login()">Continue</button>
+
+<div class="footer">Powered by SmartRecharge</div>
+
+</div>
 </div>
 
 <script>
