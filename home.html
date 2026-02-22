@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Recharge BD</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Home</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
+html,body{
+height:100%;
+background:#0f2027;
+}
+
 body{
 font-family:Segoe UI;
 background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
-color:white;
 min-height:100vh;
+min-height:100dvh;
+color:white;
 padding:20px;
 }
 
@@ -22,14 +28,8 @@ align-items:center;
 margin-bottom:25px;
 }
 
-.logo{
-font-weight:bold;
-font-size:18px;
-color:#00ff99;
-}
-
 .logout{
-background:red;
+background:#ff1744;
 border:none;
 padding:8px 14px;
 border-radius:8px;
@@ -38,41 +38,38 @@ cursor:pointer;
 }
 
 .card{
-background:rgba(255,255,255,0.05);
+background:rgba(255,255,255,0.07);
 backdrop-filter:blur(12px);
-margin:25px 0;
-border-radius:15px;
-box-shadow:0 0 25px rgba(0,255,150,0.15);
+border-radius:20px;
+margin:20px 0;
 overflow:hidden;
-position:relative;
-transition:0.3s;
+box-shadow:0 0 25px rgba(0,255,150,.2);
+transition:.3s;
 }
 
 .card:hover{
-transform:translateY(-3px);
-box-shadow:0 0 35px rgba(0,255,150,0.3);
+transform:translateY(-5px);
+box-shadow:0 0 35px rgba(0,255,150,.4);
 }
 
 .product-img{
 width:100%;
-height:160px;
+height:170px;
 object-fit:cover;
-display:block;
 }
 
-.card-content{
+.content{
 padding:20px;
 }
 
 .badge{
 position:absolute;
 top:15px;
-right:15px;   /* 🔥 এখন ডানে থাকবে */
+right:15px;
 padding:5px 12px;
 border-radius:20px;
 font-size:12px;
 font-weight:bold;
-z-index:2;
 }
 
 .hot{background:#ff1744;}
@@ -80,8 +77,8 @@ z-index:2;
 
 .price{
 color:#00ff99;
-font-size:18px;
 font-weight:bold;
+font-size:18px;
 margin-top:10px;
 }
 
@@ -94,11 +91,6 @@ border-radius:10px;
 width:100%;
 font-weight:bold;
 cursor:pointer;
-transition:0.3s;
-}
-
-.buy:hover{
-background:#00c853;
 }
 </style>
 </head>
@@ -106,11 +98,10 @@ background:#00c853;
 <body>
 
 <div class="header">
-<div class="logo">⚡ Smart Recharge BD</div>
+<h2>⚡ Smart Recharge BD</h2>
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
-<h3>Available Packages</h3>
 <div id="productList"></div>
 
 <script>
@@ -118,31 +109,7 @@ if(sessionStorage.getItem("role")!=="user"){
 window.location="index.html";
 }
 
-let products=JSON.parse(localStorage.getItem("products"))||[
-{
-title:"30 Taka Card",
-price:28,
-details:"30 Minutes - 3 Days",
-badge:"HOT",
-image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
-},
-{
-title:"50 Taka Card",
-price:48,
-details:"50 Minutes - 5 Days",
-badge:"",
-image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
-},
-{
-title:"100 Taka Card",
-price:95,
-details:"100 Minutes - 7 Days",
-badge:"OFFER",
-image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
-}
-];
-
-localStorage.setItem("products",JSON.stringify(products));
+let products=JSON.parse(localStorage.getItem("products"))||[];
 
 function display(){
 let box=document.getElementById("productList");
@@ -150,19 +117,15 @@ box.innerHTML="";
 
 products.forEach((p,i)=>{
 box.innerHTML+=`
-<div class="card">
-
+<div class="card" style="position:relative;">
 ${p.badge?`<span class="badge ${p.badge.toLowerCase()}">${p.badge}</span>`:""}
-
-<img src="${p.image}" class="product-img">
-
-<div class="card-content">
-<h4>${p.title}</h4>
+<img src="${p.image || 'https://via.placeholder.com/400x200'}" class="product-img">
+<div class="content">
+<h3>${p.title}</h3>
 <p>${p.details}</p>
 <p class="price">৳${p.price}</p>
 <button class="buy" onclick="buy(${i})">Buy Now</button>
 </div>
-
 </div>
 `;
 });
