@@ -7,11 +7,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
-html,body{
-height:100%;
-background:#0f2027;
-}
-
 body{
 font-family:Segoe UI;
 background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
@@ -26,6 +21,16 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
+}
+
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo-img{
+width:40px;
 }
 
 .logout{
@@ -44,12 +49,6 @@ border-radius:20px;
 margin:20px 0;
 overflow:hidden;
 box-shadow:0 0 25px rgba(0,255,150,.2);
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 0 35px rgba(0,255,150,.4);
 }
 
 .product-img{
@@ -98,7 +97,10 @@ cursor:pointer;
 <body>
 
 <div class="header">
-<h2>⚡ Smart Recharge BD</h2>
+<div class="logo-wrap">
+<img src="https://i.postimg.cc/Qxr6kM5f/8E06F917-7C4C-42E5-B43F-B792C3410617.png" class="logo-img">
+<h2>Smart Recharge BD</h2>
+</div>
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
@@ -114,7 +116,6 @@ let products=JSON.parse(localStorage.getItem("products"))||[];
 function display(){
 let box=document.getElementById("productList");
 box.innerHTML="";
-
 products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="card" style="position:relative;">
