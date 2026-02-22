@@ -5,57 +5,99 @@
 <title>Payment</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
 font-family:Segoe UI;
-background:#0f2027;
+background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
 color:white;
+min-height:100vh;
 padding:20px;
 }
 
-.box{
-background:#1b2b34;
+.container{
+max-width:400px;
+margin:auto;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
 padding:20px;
-border-radius:10px;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,255,150,0.2);
+margin-bottom:20px;
+}
+
+.price{
+color:#00ff99;
+font-size:18px;
+font-weight:bold;
+margin-top:10px;
+}
+
+label{
+font-size:14px;
+opacity:0.8;
 }
 
 input{
 width:100%;
-padding:10px;
-margin:8px 0;
+padding:12px;
+margin:10px 0;
 border:none;
-border-radius:6px;
+border-radius:10px;
+outline:none;
 }
 
-button{
-padding:10px;
-border:none;
-border-radius:6px;
+.confirm{
 background:#00e676;
-cursor:pointer;
+border:none;
+padding:12px;
+border-radius:10px;
 width:100%;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+.confirm:hover{
+background:#00c853;
 }
 
 .back{
-background:red;
-color:white;
+background:#ff1744;
+border:none;
+padding:12px;
+border-radius:10px;
+width:100%;
 margin-top:10px;
+color:white;
+cursor:pointer;
 }
 </style>
 </head>
+
 <body>
 
-<h3>Payment Page</h3>
+<div class="container">
 
-<div class="box" id="productInfo"></div>
+<h3>💳 Payment Page</h3>
+
+<div class="card" id="productInfo"></div>
 
 <p><b>bKash/Nagad:</b> 01861316505</p>
 
-<input id="name" placeholder="Your Name">
-<input id="trx" placeholder="Transaction ID">
+<label>Your Name</label>
+<input id="name">
 
-<button onclick="confirmOrder()">Confirm Payment</button>
+<label>Transaction ID</label>
+<input id="trx">
+
+<button class="confirm" onclick="confirmOrder()">Confirm Payment</button>
 <button class="back" onclick="goBack()">Back</button>
+
+</div>
 
 <script>
 if(sessionStorage.getItem("role")!=="user"){
@@ -65,38 +107,24 @@ window.location="index.html";
 let products=JSON.parse(localStorage.getItem("products"))||[];
 let index=localStorage.getItem("selectedIndex");
 
-if(index===null){
-window.location="home.html";
-}
+if(index===null){window.location="home.html";}
 
 let product=products[index];
 
 document.getElementById("productInfo").innerHTML=
 "<h4>"+product.title+"</h4>"+
 "<p>"+product.details+"</p>"+
-"<p>৳"+product.price+"</p>";
+"<p class='price'>৳"+product.price+"</p>";
 
 function confirmOrder(){
-
 let name=document.getElementById("name").value;
 let trx=document.getElementById("trx").value;
 let user=sessionStorage.getItem("user");
 
-if(!name||!trx){
-alert("Fill all fields");
-return;
-}
+if(!name||!trx){alert("Fill all fields");return;}
 
 let orders=JSON.parse(localStorage.getItem("orders"))||[];
-
-orders.push({
-name:name,
-user:user,
-product:product.title,
-price:product.price,
-trx:trx
-});
-
+orders.push({name,user,product:product.title,price:product.price,trx});
 localStorage.setItem("orders",JSON.stringify(orders));
 
 let msg="Name: "+name+
@@ -107,8 +135,7 @@ let msg="Name: "+name+
 
 window.open("https://wa.me/8801607254046?text="+msg);
 
-alert("Order Placed Successfully!");
-
+alert("Order Successful!");
 window.location="home.html";
 }
 
