@@ -13,7 +13,7 @@ box-sizing:border-box;
 
 body{
 font-family:Segoe UI, sans-serif;
-background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -21,85 +21,110 @@ height:100vh;
 color:white;
 }
 
-.login-box{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(12px);
-padding:35px;
-border-radius:15px;
-width:90%;
-max-width:360px;
-box-shadow:0 0 30px rgba(0,255,150,0.25);
+.login-container{
+width:100%;
+padding:20px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-h2{
-margin-bottom:10px;
+.login-box{
+width:100%;
+max-width:380px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:40px 25px;
+text-align:center;
+box-shadow:0 0 30px rgba(0,255,150,0.3);
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#00ff99;
+margin-bottom:8px;
 }
 
 .subtitle{
-opacity:.7;
+opacity:.8;
 margin-bottom:20px;
 }
 
 input{
 width:100%;
-padding:12px;
-margin:10px 0;
+padding:14px;
 border:none;
-border-radius:8px;
+border-radius:10px;
+margin:10px 0;
+font-size:15px;
 outline:none;
 }
 
 button{
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#00e676;
 color:black;
 font-weight:bold;
+font-size:16px;
 cursor:pointer;
-transition:0.3s;
+transition:.3s;
 }
 
 button:hover{
 background:#00c853;
 }
-</style>
-</head>
 
+.footer{
+margin-top:20px;
+font-size:12px;
+opacity:.6;
+}
+</style>
+
+</head>
 <body>
 
+<div class="login-container">
 <div class="login-box">
-<h2>⚡ Smart Recharge BD</h2>
+
+<div class="logo">⚡ Smart Recharge BD</div>
 <div class="subtitle">Secure Login</div>
 
 <input type="password" id="number" placeholder="Enter 11 digit number or admin password">
 <button onclick="login()">Continue</button>
+
+<div class="footer">Powered by SmartRecharge</div>
+
+</div>
 </div>
 
 <script>
 
-// Default admin password
+// Default Admin Password
 let defaultPass = "admin@2026@";
 
-// First time open হলে default password set হবে
+// First time open হলে set হবে
 if(!localStorage.getItem("adminPass")){
 localStorage.setItem("adminPass", defaultPass);
 }
 
 function login(){
+let input=document.getElementById("number").value.trim();
+let savedPass=localStorage.getItem("adminPass");
 
-let input = document.getElementById("number").value.trim();
-let savedPass = localStorage.getItem("adminPass");
-
-// Admin Login
-if(input === savedPass){
+// Admin login
+if(input===savedPass){
 sessionStorage.setItem("role","admin");
 window.location="admin.html";
 return;
 }
 
-// User Login (11 digit only)
+// User login (11 digit only)
 if(/^\d{11}$/.test(input)){
 sessionStorage.setItem("role","user");
 sessionStorage.setItem("user",input);
