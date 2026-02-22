@@ -5,25 +5,54 @@
 <title>Smart Recharge BD</title>
 
 <style>
-html,body{
+*{
 margin:0;
 padding:0;
+box-sizing:border-box;
+}
+
+html,body{
 height:100%;
 }
 
 body{
 font-family:Segoe UI,sans-serif;
 background:linear-gradient(135deg,#0f2027,#1a2a33,#16222a);
-color:white;
 display:flex;
 justify-content:center;
 align-items:center;
-min-height:100vh;
+min-height:100dvh;
+color:white;
+}
+
+/* Background glow */
+body::before{
+content:"";
+position:absolute;
+width:400px;
+height:400px;
+background:radial-gradient(circle,#00e67655,transparent);
+top:-100px;
+left:-100px;
+z-index:0;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:400px;
+height:400px;
+background:radial-gradient(circle,#00e67633,transparent);
+bottom:-100px;
+right:-100px;
+z-index:0;
 }
 
 .wrapper{
 width:100%;
 padding:20px;
+position:relative;
+z-index:1;
 }
 
 .login-box{
