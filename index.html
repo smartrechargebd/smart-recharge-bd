@@ -1,59 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Smart Recharge BD</title>
 
 <style>
-body{
+html,body{
 margin:0;
-font-family:Segoe UI;
+padding:0;
+height:100%;
+}
+
+body{
+font-family:Segoe UI,sans-serif;
 background:linear-gradient(135deg,#0f2027,#1a2a33,#16222a);
 color:white;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 }
 
-.box{
+.wrapper{
+width:100%;
+padding:20px;
+}
+
+.login-box{
 background:rgba(255,255,255,0.08);
-padding:40px;
-border-radius:15px;
-width:90%;
-max-width:350px;
+backdrop-filter:blur(15px);
+padding:40px 25px;
+border-radius:20px;
+width:100%;
+max-width:380px;
+margin:auto;
 text-align:center;
+box-shadow:0 0 40px rgba(0,255,150,.3);
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+letter-spacing:1px;
+color:#00e676;
+}
+
+.subtitle{
+margin-bottom:20px;
+opacity:.8;
 }
 
 input{
 width:100%;
-padding:12px;
+padding:14px;
 margin:10px 0;
-border-radius:8px;
 border:none;
+border-radius:10px;
+outline:none;
+font-size:15px;
 }
 
 button{
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#00e676;
 color:black;
 font-weight:bold;
 cursor:pointer;
+font-size:16px;
+transition:.3s;
+}
+
+button:hover{
+background:#00c853;
+}
+
+.footer{
+margin-top:20px;
+font-size:12px;
+opacity:.6;
 }
 </style>
 
 </head>
 <body>
 
-<div class="box">
-<h2>Smart Recharge BD</h2>
-<p>Secure Login</p>
+<div class="wrapper">
+<div class="login-box">
+
+<div class="logo">⚡ Smart Recharge BD</div>
+<div class="subtitle">Secure Login</div>
 
 <input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
 <button onclick="login()">Continue</button>
+
+<div class="footer">Powered by SmartRecharge</div>
+
+</div>
 </div>
 
 <script>
@@ -61,12 +107,15 @@ function login(){
 const input=document.getElementById("loginInput").value.trim();
 
 if(input==="admin@2026@"){
-alert("Admin login working");
+sessionStorage.setItem("role","admin");
+window.location="admin.html";
 return;
 }
 
 if(input.length===11 && !isNaN(input)){
-alert("User login working");
+sessionStorage.setItem("role","user");
+sessionStorage.setItem("user",input);
+window.location="home.html";
 return;
 }
 
