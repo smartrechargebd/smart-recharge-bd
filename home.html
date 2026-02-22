@@ -40,10 +40,10 @@ cursor:pointer;
 .card{
 background:rgba(255,255,255,0.05);
 backdrop-filter:blur(12px);
-padding:20px;
-margin:20px 0;
+margin:25px 0;
 border-radius:15px;
 box-shadow:0 0 25px rgba(0,255,150,0.15);
+overflow:hidden;
 position:relative;
 transition:0.3s;
 }
@@ -53,14 +53,26 @@ transform:translateY(-3px);
 box-shadow:0 0 35px rgba(0,255,150,0.3);
 }
 
+.product-img{
+width:100%;
+height:160px;
+object-fit:cover;
+display:block;
+}
+
+.card-content{
+padding:20px;
+}
+
 .badge{
 position:absolute;
 top:15px;
-left:15px;
+right:15px;   /* 🔥 এখন ডানে থাকবে */
 padding:5px 12px;
 border-radius:20px;
 font-size:12px;
 font-weight:bold;
+z-index:2;
 }
 
 .hot{background:#ff1744;}
@@ -107,9 +119,27 @@ window.location="index.html";
 }
 
 let products=JSON.parse(localStorage.getItem("products"))||[
-{title:"30 Taka Card",price:28,details:"30 Minutes - 3 Days",badge:"HOT"},
-{title:"50 Taka Card",price:48,details:"50 Minutes - 5 Days",badge:""},
-{title:"100 Taka Card",price:95,details:"100 Minutes - 7 Days",badge:"OFFER"}
+{
+title:"30 Taka Card",
+price:28,
+details:"30 Minutes - 3 Days",
+badge:"HOT",
+image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
+},
+{
+title:"50 Taka Card",
+price:48,
+details:"50 Minutes - 5 Days",
+badge:"",
+image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
+},
+{
+title:"100 Taka Card",
+price:95,
+details:"100 Minutes - 7 Days",
+badge:"OFFER",
+image:"https://images.unsplash.com/photo-1580910051074-3eb694886505"
+}
 ];
 
 localStorage.setItem("products",JSON.stringify(products));
@@ -117,14 +147,22 @@ localStorage.setItem("products",JSON.stringify(products));
 function display(){
 let box=document.getElementById("productList");
 box.innerHTML="";
+
 products.forEach((p,i)=>{
 box.innerHTML+=`
 <div class="card">
+
 ${p.badge?`<span class="badge ${p.badge.toLowerCase()}">${p.badge}</span>`:""}
+
+<img src="${p.image}" class="product-img">
+
+<div class="card-content">
 <h4>${p.title}</h4>
 <p>${p.details}</p>
 <p class="price">৳${p.price}</p>
 <button class="buy" onclick="buy(${i})">Buy Now</button>
+</div>
+
 </div>
 `;
 });
