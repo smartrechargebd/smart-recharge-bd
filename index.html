@@ -1,115 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Smart Recharge BD</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-html,body{
-height:100%;
-background:#0f2027;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-font-family:Segoe UI;
+font-family:Segoe UI, sans-serif;
 background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-min-height:100vh;
-min-height:100dvh;
 display:flex;
 justify-content:center;
 align-items:center;
+height:100vh;
 color:white;
 }
 
-.container{
-width:100%;
-padding:20px;
-display:flex;
-justify-content:center;
-}
-
 .login-box{
-width:100%;
-max-width:380px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(15px);
-padding:40px 25px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 30px rgba(0,255,150,.3);
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+padding:35px;
+border-radius:15px;
+width:90%;
+max-width:360px;
+box-shadow:0 0 30px rgba(0,255,150,0.25);
 }
 
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#00ff99;
+h2{
 margin-bottom:10px;
 }
 
 .subtitle{
-opacity:.8;
+opacity:.7;
 margin-bottom:20px;
 }
 
 input{
 width:100%;
-padding:14px;
+padding:12px;
 margin:10px 0;
 border:none;
-border-radius:10px;
-font-size:15px;
+border-radius:8px;
+outline:none;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:12px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#00e676;
 color:black;
 font-weight:bold;
 cursor:pointer;
-font-size:16px;
+transition:0.3s;
 }
 
-.footer{
-margin-top:20px;
-font-size:12px;
-opacity:.6;
+button:hover{
+background:#00c853;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
 <div class="login-box">
-
-<div class="logo">⚡ Smart Recharge BD</div>
+<h2>⚡ Smart Recharge BD</h2>
 <div class="subtitle">Secure Login</div>
 
-<input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
+<input type="password" id="number" placeholder="Enter 11 digit number or admin password">
 <button onclick="login()">Continue</button>
-
-<div class="footer">Powered by SmartRecharge</div>
-
-</div>
 </div>
 
 <script>
-function login(){
-let input=document.getElementById("loginInput").value.trim();
-let adminPass=localStorage.getItem("adminPass")||"admin@2026@";
 
-if(input===adminPass){
+// Default admin password
+let defaultPass = "admin@2026@";
+
+// First time open হলে default password set হবে
+if(!localStorage.getItem("adminPass")){
+localStorage.setItem("adminPass", defaultPass);
+}
+
+function login(){
+
+let input = document.getElementById("number").value.trim();
+let savedPass = localStorage.getItem("adminPass");
+
+// Admin Login
+if(input === savedPass){
 sessionStorage.setItem("role","admin");
 window.location="admin.html";
 return;
 }
 
-if(input.length===11 && !isNaN(input)){
+// User Login (11 digit only)
+if(/^\d{11}$/.test(input)){
 sessionStorage.setItem("role","user");
 sessionStorage.setItem("user",input);
 window.location="home.html";
@@ -118,6 +109,7 @@ return;
 
 alert("Invalid Login");
 }
+
 </script>
 
 </body>
