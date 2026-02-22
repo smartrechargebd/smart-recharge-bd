@@ -7,37 +7,32 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
-html,body{
+html{
 height:100%;
+background:#0f2027;
 }
 
 body{
-font-family:Segoe UI;
+min-height:100%;
 background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
+font-family:Segoe UI;
 color:white;
+padding:40px 20px env(safe-area-inset-bottom);
 }
 
-/* Stable scroll container */
-.main{
-min-height:100vh;
-padding:40px 20px;
-display:flex;
-justify-content:center;
-}
-
-/* Fixed width container */
+/* Wrapper */
 .wrapper{
-width:100%;
 max-width:420px;
+margin:auto;
 }
 
 /* Card */
 .card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(14px);
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(15px);
 padding:25px;
 border-radius:20px;
-box-shadow:0 0 25px rgba(0,255,150,.3);
+box-shadow:0 0 30px rgba(0,255,150,.25);
 }
 
 /* Logo */
@@ -49,7 +44,7 @@ margin-bottom:20px;
 }
 
 .logo img{
-width:40px;
+width:42px;
 }
 
 /* Price */
@@ -60,36 +55,42 @@ font-weight:bold;
 margin-top:8px;
 }
 
-/* Input */
+/* Inputs */
 input{
 width:100%;
-padding:12px;
-margin-top:12px;
+padding:14px;
+margin-top:14px;
 border:none;
-border-radius:10px;
-outline:none;
+border-radius:12px;
+background:rgba(0,0,0,0.75);
+color:white;
 font-size:15px;
+outline:none;
+}
+
+input::placeholder{
+color:rgba(255,255,255,.5);
 }
 
 /* Buttons */
 button{
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 font-weight:bold;
 cursor:pointer;
-margin-top:15px;
+margin-top:16px;
 font-size:15px;
 }
 
 .confirm{
-background:#00e676;
+background:linear-gradient(45deg,#00e676,#00c853);
 color:black;
 }
 
 .back{
-background:#ff1744;
+background:linear-gradient(45deg,#ff1744,#d50000);
 color:white;
 }
 </style>
@@ -97,9 +98,7 @@ color:white;
 
 <body>
 
-<div class="main">
 <div class="wrapper">
-
 <div class="card">
 
 <div class="logo">
@@ -117,8 +116,6 @@ color:white;
 
 <button class="confirm" onclick="confirmOrder()">Confirm Payment</button>
 <button class="back" onclick="goBack()">Back</button>
-
-</div>
 
 </div>
 </div>
