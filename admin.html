@@ -2,57 +2,165 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin</title>
+<title>Admin Dashboard</title>
+
 <style>
-body{margin:0;font-family:Segoe UI;background:#0f2027;color:white;padding:20px;}
-.card{background:#1b2b34;padding:15px;margin:10px 0;border-radius:8px;}
-input,select{width:100%;padding:8px;margin:5px 0;border:none;border-radius:6px;}
-button{padding:6px 12px;border:none;border-radius:6px;margin:5px 0;cursor:pointer;}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
+color:white;
+min-height:100vh;
+padding:20px;
+}
+
+h2{
+color:#00ff99;
+margin-bottom:15px;
+}
+
+.section{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+padding:20px;
+border-radius:15px;
+margin-bottom:25px;
+box-shadow:0 0 25px rgba(0,255,150,0.15);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:8px;
+font-weight:bold;
+}
+
 .add{background:#00e676;}
-.delete{background:red;color:white;}
+.delete{background:#ff1744;color:white;}
+.edit{background:#ff9100;color:black;}
+
+.table{
+margin-top:15px;
+}
+
+.order{
+background:#1b2b34;
+padding:10px;
+border-radius:8px;
+margin:8px 0;
+font-size:14px;
+}
 </style>
 </head>
 <body>
-
-<h2>Admin Dashboard</h2>
-
-<h3>Add Product</h3>
-<input id="title" placeholder="Title">
-<input id="price" placeholder="Price">
-<input id="details" placeholder="Details">
-<select id="badge">
-<option value="">No Badge</option>
-<option value="HOT">HOT</option>
-<option value="OFFER">OFFER</option>
-</select>
-<button class="add" onclick="addProduct()">Add</button>
-
-<hr>
-
-<h3>All Orders</h3>
-<div id="orders"></div>
-
-<hr>
-
-<h3>Change Admin Password</h3>
-<input id="newPass" placeholder="New Password">
-<button onclick="changePass()">Update</button>
 
 <script>
 if(sessionStorage.getItem("role")!=="admin"){
 window.location="index.html";
 }
+</script>
+
+<h2>⚡ Admin Dashboard</h2>
+
+<!-- Add Product -->
+<div class="section">
+<h3>Add Product</h3>
+
+<input id="title" placeholder="Title">
+<input id="price" placeholder="Price">
+<input id="details" placeholder="Details">
+
+<select id="badge">
+<option value="">No Badge</option>
+<option value="HOT">HOT</option>
+<option value="OFFER">OFFER</option>
+</select>
+
+<button class="add" onclick="addProduct()">Add Product</button>
+</div>
+
+<!-- Product List -->
+<div class="section">
+<h3>All Products</h3>
+<div id="productList"></div>
+</div>
+
+<!-- Orders -->
+<div class="section">
+<h3>Order History</h3>
+<div id="orders"></div>
+</div>
+
+<!-- Change Password -->
+<div class="section">
+<h3>Change Admin Password</h3>
+<input id="newPass" placeholder="New Password">
+<button class="add" onclick="changePass()">Update Password</button>
+</div>
+
+<script>
+let products=JSON.parse(localStorage.getItem("products"))||[];
+let orders=JSON.parse(localStorage.getItem("orders"))||[];
+
+function saveProducts(){
+localStorage.setItem("products",JSON.stringify(products));
+}
 
 function addProduct(){
-let products=JSON.parse(localStorage.getItem("products"))||[];
 products.push({
 title:document.getElementById("title").value,
 price:document.getElementById("price").value,
 details:document.getElementById("details").value,
 badge:document.getElementById("badge").value
 });
-localStorage.setItem("products",JSON.stringify(products));
+saveProducts();
 alert("Product Added!");
+displayProducts();
+}
+
+function deleteProduct(i){
+products.splice(i,1);
+saveProducts();
+displayProducts();
+}
+
+function displayProducts(){
+let box=document.getElementById("productList");
+box.innerHTML="";
+products.forEach((p,i)=>{
+box.innerHTML+=`
+<div class="order">
+<b>${p.title}</b> (৳${p.price})<br>
+${p.details}<br>
+Badge: ${p.badge||"None"}<br>
+<button class="delete" onclick="deleteProduct(${i})">Delete</button>
+</div>
+`;
+});
+}
+
+function displayOrders(){
+let box=document.getElementById("orders");
+box.innerHTML="";
+orders.forEach(o=>{
+box.innerHTML+=`
+<div class="order">
+<b>${o.name}</b> bought ${o.product}<br>
+৳${o.price} | TRX: ${o.trx}
+</div>
+`;
+});
 }
 
 function changePass(){
@@ -61,16 +169,8 @@ localStorage.setItem("adminPass",newPass);
 alert("Password Updated!");
 }
 
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
-let box=document.getElementById("orders");
-orders.forEach(o=>{
-box.innerHTML+=`
-<div class="card">
-${o.name} bought ${o.product} (৳${o.price})<br>
-TRX: ${o.trx}
-</div>
-`;
-});
+displayProducts();
+displayOrders();
 </script>
 
 </body>
