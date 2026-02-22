@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Recharge BD</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-<div class="center">
-<div class="login-box">
-<h2>Smart Recharge BD</h2>
-<p>Secure Login</p>
-<input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
-<button onclick="login()">Continue</button>
-</div>
-</div>
-
 <script>
 async function sha256(text){
 const buf = await crypto.subtle.digest(
@@ -33,18 +15,18 @@ const adminHash="240be518fabd2724ddb6f04eebc21f705399a097e3bc35cdbd22fcf04e3d6d3
 const hash=await sha256(input);
 
 if(hash===adminHash){
-alert("Admin Login Success");
+sessionStorage.setItem("role","admin");
+window.location="admin.html";
 return;
 }
 
 if(input.length===11 && !isNaN(input)){
-alert("User Login Success");
+sessionStorage.setItem("role","user");
+sessionStorage.setItem("user",input);
+window.location="home.html";
 return;
 }
 
 alert("Invalid Login");
 }
 </script>
-
-</body>
-</html>
