@@ -6,10 +6,21 @@
 
 <style>
 body{
+margin:0;
 font-family:Segoe UI;
-background:linear-gradient(135deg,#0f2027,#203a43);
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
 padding:20px;
+}
+
+h2{margin-top:0;}
+
+.section{
+background:rgba(255,255,255,0.05);
+padding:20px;
+border-radius:15px;
+margin-bottom:25px;
+backdrop-filter:blur(10px);
 }
 
 input,select{
@@ -26,20 +37,25 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 margin:5px 3px;
+font-weight:bold;
 }
 
-.addBtn{background:#00e676;}
+.saveBtn{background:#00e676;}
 .deleteBtn{background:red;color:white;}
 .editBtn{background:orange;color:white;}
-.saveBtn{background:#00c853;color:white;}
+.logoutBtn{background:red;color:white;float:right;}
+.passBtn{background:#00c853;color:white;}
 </style>
 </head>
 
 <body>
 
-<h2>Admin Dashboard</h2>
+<h2>Admin Dashboard 
+<button class="logoutBtn" onclick="logout()">Logout</button>
+</h2>
 
-<h3>Add / Update Package</h3>
+<div class="section">
+<h3>Add / Edit Package</h3>
 
 <input type="hidden" id="editIndex">
 
@@ -54,12 +70,19 @@ margin:5px 3px;
 <option value="OFFER">OFFER</option>
 </select>
 
-<button class="addBtn" onclick="saveProduct()">Save Package</button>
+<button class="saveBtn" onclick="saveProduct()">Save Package</button>
+</div>
 
-<hr>
-
+<div class="section">
 <h3>All Packages</h3>
 <div id="list"></div>
+</div>
+
+<div class="section">
+<h3>Change Admin Password</h3>
+<input type="password" id="newPass" placeholder="New Password">
+<button class="passBtn" onclick="changePassword()">Change Password</button>
+</div>
 
 <script>
 
@@ -94,8 +117,12 @@ let details=document.getElementById("details").value;
 let price=document.getElementById("price").value;
 let badge=document.getElementById("badge").value;
 let image=document.getElementById("image").value;
-
 let editIndex=document.getElementById("editIndex").value;
+
+if(title==="" || price===""){
+alert("Title & Price Required");
+return;
+}
 
 if(editIndex===""){
 products.push({title,details,price,badge,image});
@@ -111,7 +138,6 @@ display();
 
 function editProduct(i){
 let p=products[i];
-
 document.getElementById("title").value=p.title;
 document.getElementById("details").value=p.details;
 document.getElementById("price").value=p.price;
@@ -121,9 +147,11 @@ document.getElementById("editIndex").value=i;
 }
 
 function deleteProduct(i){
+if(confirm("Delete this package?")){
 products.splice(i,1);
 localStorage.setItem("products",JSON.stringify(products));
 display();
+}
 }
 
 function clearForm(){
@@ -132,6 +160,24 @@ document.getElementById("details").value="";
 document.getElementById("price").value="";
 document.getElementById("badge").value="";
 document.getElementById("image").value="";
+}
+
+function changePassword(){
+let newPass=document.getElementById("newPass").value;
+
+if(newPass.length<5){
+alert("Password too short");
+return;
+}
+
+localStorage.setItem("adminPass",newPass);
+alert("Password Updated Successfully");
+document.getElementById("newPass").value="";
+}
+
+function logout(){
+sessionStorage.clear();
+window.location="index.html";
 }
 
 display();
