@@ -1,25 +1,15 @@
 <script>
-async function sha256(text){
-const buf = await crypto.subtle.digest(
-"SHA-256",
-new TextEncoder().encode(text)
-);
-return Array.from(new Uint8Array(buf))
-.map(b=>b.toString(16).padStart(2,"0"))
-.join("");
-}
-
-async function login(){
+function login(){
 const input=document.getElementById("loginInput").value.trim();
-const adminHash="240be518fabd2724ddb6f04eebc21f705399a097e3bc35cdbd22fcf04e3d6d3c";
-const hash=await sha256(input);
 
-if(hash===adminHash){
+// Admin login
+if(input==="admin@2026@"){
 sessionStorage.setItem("role","admin");
 window.location="admin.html";
 return;
 }
 
+// User login
 if(input.length===11 && !isNaN(input)){
 sessionStorage.setItem("role","user");
 sessionStorage.setItem("user",input);
