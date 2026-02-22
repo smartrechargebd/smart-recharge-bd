@@ -2,21 +2,49 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Recharge BD - Login</title>
+<title>Smart Recharge BD</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dark">
+<body>
 
-<div class="center-screen">
-  <div class="glass-card">
-    <h2>Smart Recharge BD</h2>
-    <p class="subtitle">Secure Login</p>
-    <input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
-    <button onclick="login()">Continue</button>
-  </div>
+<div class="center">
+<div class="login-box">
+<h2>Smart Recharge BD</h2>
+<p>Secure Login</p>
+<input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
+<button onclick="login()">Continue</button>
+</div>
 </div>
 
-<script src="js/config.js"></script>
-<script src="js/auth.js"></script>
+<script>
+async function sha256(text){
+const buf = await crypto.subtle.digest(
+"SHA-256",
+new TextEncoder().encode(text)
+);
+return Array.from(new Uint8Array(buf))
+.map(b=>b.toString(16).padStart(2,"0"))
+.join("");
+}
+
+async function login(){
+const input=document.getElementById("loginInput").value.trim();
+const adminHash="240be518fabd2724ddb6f04eebc21f705399a097e3bc35cdbd22fcf04e3d6d3c";
+const hash=await sha256(input);
+
+if(hash===adminHash){
+alert("Admin Login Success");
+return;
+}
+
+if(input.length===11 && !isNaN(input)){
+alert("User Login Success");
+return;
+}
+
+alert("Invalid Login");
+}
+</script>
+
 </body>
 </html>
