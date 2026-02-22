@@ -2,31 +2,14 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
+<title>Admin Panel</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
 font-family:Segoe UI;
-background:linear-gradient(135deg,#0f2027,#16222a,#203a43);
+background:linear-gradient(135deg,#0f2027,#203a43);
 color:white;
-min-height:100vh;
 padding:20px;
-}
-
-h2{
-color:#00ff99;
-margin-bottom:15px;
-}
-
-.section{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(12px);
-padding:20px;
-border-radius:15px;
-margin-bottom:25px;
-box-shadow:0 0 25px rgba(0,255,150,0.15);
 }
 
 input,select{
@@ -38,48 +21,32 @@ border-radius:8px;
 }
 
 button{
-padding:8px 15px;
+padding:8px 12px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-margin-top:8px;
-font-weight:bold;
+margin:5px 3px;
 }
 
-.add{background:#00e676;}
-.delete{background:#ff1744;color:white;}
-.edit{background:#ff9100;color:black;}
-
-.table{
-margin-top:15px;
-}
-
-.order{
-background:#1b2b34;
-padding:10px;
-border-radius:8px;
-margin:8px 0;
-font-size:14px;
-}
+.addBtn{background:#00e676;}
+.deleteBtn{background:red;color:white;}
+.editBtn{background:orange;color:white;}
+.saveBtn{background:#00c853;color:white;}
 </style>
 </head>
+
 <body>
 
-<script>
-if(sessionStorage.getItem("role")!=="admin"){
-window.location="index.html";
-}
-</script>
+<h2>Admin Dashboard</h2>
 
-<h2>⚡ Admin Dashboard</h2>
+<h3>Add / Update Package</h3>
 
-<!-- Add Product -->
-<div class="section">
-<h3>Add Product</h3>
+<input type="hidden" id="editIndex">
 
 <input id="title" placeholder="Title">
-<input id="price" placeholder="Price">
 <input id="details" placeholder="Details">
+<input id="price" placeholder="Price">
+<input id="image" placeholder="Image URL">
 
 <select id="badge">
 <option value="">No Badge</option>
@@ -87,90 +54,88 @@ window.location="index.html";
 <option value="OFFER">OFFER</option>
 </select>
 
-<button class="add" onclick="addProduct()">Add Product</button>
-</div>
+<button class="addBtn" onclick="saveProduct()">Save Package</button>
 
-<!-- Product List -->
-<div class="section">
-<h3>All Products</h3>
-<div id="productList"></div>
-</div>
+<hr>
 
-<!-- Orders -->
-<div class="section">
-<h3>Order History</h3>
-<div id="orders"></div>
-</div>
-
-<!-- Change Password -->
-<div class="section">
-<h3>Change Admin Password</h3>
-<input id="newPass" placeholder="New Password">
-<button class="add" onclick="changePass()">Update Password</button>
-</div>
+<h3>All Packages</h3>
+<div id="list"></div>
 
 <script>
-let products=JSON.parse(localStorage.getItem("products"))||[];
-let orders=JSON.parse(localStorage.getItem("orders"))||[];
 
-function saveProducts(){
-localStorage.setItem("products",JSON.stringify(products));
+if(sessionStorage.getItem("role")!=="admin"){
+window.location="index.html";
 }
 
-function addProduct(){
-products.push({
-title:document.getElementById("title").value,
-price:document.getElementById("price").value,
-details:document.getElementById("details").value,
-badge:document.getElementById("badge").value
+let products=JSON.parse(localStorage.getItem("products"))||[];
+
+function display(){
+let box=document.getElementById("list");
+box.innerHTML="";
+
+products.forEach((p,i)=>{
+box.innerHTML+=`
+<div style="background:#111;padding:15px;border-radius:10px;margin:10px 0;">
+<b>${p.title}</b><br>
+${p.details}<br>
+৳${p.price}<br>
+Badge: ${p.badge || "None"}<br>
+
+<button class="editBtn" onclick="editProduct(${i})">Edit</button>
+<button class="deleteBtn" onclick="deleteProduct(${i})">Delete</button>
+</div>
+`;
 });
-saveProducts();
-alert("Product Added!");
-displayProducts();
+}
+
+function saveProduct(){
+let title=document.getElementById("title").value;
+let details=document.getElementById("details").value;
+let price=document.getElementById("price").value;
+let badge=document.getElementById("badge").value;
+let image=document.getElementById("image").value;
+
+let editIndex=document.getElementById("editIndex").value;
+
+if(editIndex===""){
+products.push({title,details,price,badge,image});
+}else{
+products[editIndex]={title,details,price,badge,image};
+document.getElementById("editIndex").value="";
+}
+
+localStorage.setItem("products",JSON.stringify(products));
+clearForm();
+display();
+}
+
+function editProduct(i){
+let p=products[i];
+
+document.getElementById("title").value=p.title;
+document.getElementById("details").value=p.details;
+document.getElementById("price").value=p.price;
+document.getElementById("badge").value=p.badge;
+document.getElementById("image").value=p.image;
+document.getElementById("editIndex").value=i;
 }
 
 function deleteProduct(i){
 products.splice(i,1);
-saveProducts();
-displayProducts();
+localStorage.setItem("products",JSON.stringify(products));
+display();
 }
 
-function displayProducts(){
-let box=document.getElementById("productList");
-box.innerHTML="";
-products.forEach((p,i)=>{
-box.innerHTML+=`
-<div class="order">
-<b>${p.title}</b> (৳${p.price})<br>
-${p.details}<br>
-Badge: ${p.badge||"None"}<br>
-<button class="delete" onclick="deleteProduct(${i})">Delete</button>
-</div>
-`;
-});
+function clearForm(){
+document.getElementById("title").value="";
+document.getElementById("details").value="";
+document.getElementById("price").value="";
+document.getElementById("badge").value="";
+document.getElementById("image").value="";
 }
 
-function displayOrders(){
-let box=document.getElementById("orders");
-box.innerHTML="";
-orders.forEach(o=>{
-box.innerHTML+=`
-<div class="order">
-<b>${o.name}</b> bought ${o.product}<br>
-৳${o.price} | TRX: ${o.trx}
-</div>
-`;
-});
-}
+display();
 
-function changePass(){
-let newPass=document.getElementById("newPass").value;
-localStorage.setItem("adminPass",newPass);
-alert("Password Updated!");
-}
-
-displayProducts();
-displayOrders();
 </script>
 
 </body>
