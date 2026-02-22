@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
+
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:#0f2027;
+color:white;
+padding:20px;
+}
+
+.box{
+background:#1b2b34;
+padding:20px;
+border-radius:10px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:6px;
+}
+
+button{
+padding:10px;
+border:none;
+border-radius:6px;
+background:#00e676;
+cursor:pointer;
+width:100%;
+}
+
+.back{
+background:red;
+color:white;
+margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<h3>Payment Page</h3>
+
+<div class="box" id="productInfo"></div>
+
+<p><b>bKash/Nagad:</b> 01861316505</p>
+
+<input id="name" placeholder="Your Name">
+<input id="trx" placeholder="Transaction ID">
+
+<button onclick="confirmOrder()">Confirm Payment</button>
+<button class="back" onclick="goBack()">Back</button>
+
+<script>
+if(sessionStorage.getItem("role")!=="user"){
+window.location="index.html";
+}
+
+let products=JSON.parse(localStorage.getItem("products"))||[];
+let index=localStorage.getItem("selectedIndex");
+
+if(index===null){
+window.location="home.html";
+}
+
+let product=products[index];
+
+document.getElementById("productInfo").innerHTML=
+"<h4>"+product.title+"</h4>"+
+"<p>"+product.details+"</p>"+
+"<p>৳"+product.price+"</p>";
+
+function confirmOrder(){
+
+let name=document.getElementById("name").value;
+let trx=document.getElementById("trx").value;
+let user=sessionStorage.getItem("user");
+
+if(!name||!trx){
+alert("Fill all fields");
+return;
+}
+
+let orders=JSON.parse(localStorage.getItem("orders"))||[];
+
+orders.push({
+name:name,
+user:user,
+product:product.title,
+price:product.price,
+trx:trx
+});
+
+localStorage.setItem("orders",JSON.stringify(orders));
+
+let msg="Name: "+name+
+"%0ANumber: "+user+
+"%0AProduct: "+product.title+
+"%0APrice: "+product.price+
+"%0ATRX: "+trx;
+
+window.open("https://wa.me/8801607254046?text="+msg);
+
+alert("Order Placed Successfully!");
+
+window.location="home.html";
+}
+
+function goBack(){
+window.location="home.html";
+}
+</script>
+
+</body>
+</html>
