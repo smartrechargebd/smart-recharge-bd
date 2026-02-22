@@ -23,9 +23,15 @@ justify-content:center;
 align-items:center;
 padding:20px;
 overflow:hidden;
+animation:fadePage .4s ease;
 }
 
-/* Floating light animation */
+@keyframes fadePage{
+from{opacity:0}
+to{opacity:1}
+}
+
+/* Floating light */
 body::before{
 content:"";
 position:absolute;
@@ -69,12 +75,6 @@ backdrop-filter:blur(14px);
 padding:25px;
 border-radius:20px;
 box-shadow:0 0 25px rgba(0,255,150,.3);
-animation:fadeIn .8s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
 }
 
 .price{
@@ -111,28 +111,61 @@ margin-top:15px;
 transition:.3s;
 }
 
-.confirm{
-background:#00e676;
-color:black;
-}
+.confirm{background:#00e676;color:black;}
+.confirm:hover{background:#00c853;}
 
-.confirm:hover{
-background:#00c853;
-}
-
-.back{
-background:#ff1744;
-color:white;
-}
-
-.back:hover{
-background:#d50000;
-}
+.back{background:#ff1744;color:white;}
+.back:hover{background:#d50000;}
 
 .bkash{
 margin-top:15px;
 font-size:14px;
 opacity:.9;
+}
+
+/* Loading overlay */
+.loading{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+.spinner{
+width:60px;
+height:60px;
+border:6px solid rgba(255,255,255,.2);
+border-top:6px solid #00ff99;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+/* Success modal */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:20;
+}
+
+.modal-box{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 30px rgba(0,255,150,.4);
+animation:fadePage .3s ease;
 }
 </style>
 </head>
@@ -166,6 +199,20 @@ opacity:.9;
 </div>
 </div>
 
+<!-- Loading -->
+<div class="loading" id="loading">
+<div class="spinner"></div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+<div class="modal-box">
+<h3>✅ Payment Successful</h3>
+<p>Your order has been placed.</p>
+<button class="confirm" onclick="goHome()">Go Home</button>
+</div>
+</div>
+
 <script>
 if(sessionStorage.getItem("role")!=="user"){
 window.location="index.html";
@@ -174,9 +221,7 @@ window.location="index.html";
 let products=JSON.parse(localStorage.getItem("products"))||[];
 let index=localStorage.getItem("selectedIndex");
 
-if(index===null){
-window.location="home.html";
-}
+if(index===null){window.location="home.html";}
 
 let product=products[index];
 
@@ -199,6 +244,13 @@ let orders=JSON.parse(localStorage.getItem("orders"))||[];
 orders.push({name,user,product:product.title,price:product.price,trx});
 localStorage.setItem("orders",JSON.stringify(orders));
 
+document.getElementById("loading").style.display="flex";
+
+setTimeout(function(){
+
+document.getElementById("loading").style.display="none";
+document.getElementById("successModal").style.display="flex";
+
 let msg="Name: "+name+
 "%0ANumber: "+user+
 "%0AProduct: "+product.title+
@@ -207,11 +259,14 @@ let msg="Name: "+name+
 
 window.open("https://wa.me/8801607254046?text="+msg);
 
-alert("Order Successful!");
-window.location="home.html";
+},1500);
 }
 
 function goBack(){
+window.location="home.html";
+}
+
+function goHome(){
 window.location="home.html";
 }
 </script>
