@@ -1,22 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Recharge BD</title>
+
+<style>
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#0f2027,#1a2a33,#16222a);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.box{
+background:rgba(255,255,255,0.08);
+padding:40px;
+border-radius:15px;
+width:90%;
+max-width:350px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:none;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#00e676;
+color:black;
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<div class="box">
+<h2>Smart Recharge BD</h2>
+<p>Secure Login</p>
+
+<input type="text" id="loginInput" placeholder="Enter 11 digit mobile or admin password">
+<button onclick="login()">Continue</button>
+</div>
+
 <script>
 function login(){
 const input=document.getElementById("loginInput").value.trim();
 
-// Admin login
 if(input==="admin@2026@"){
-sessionStorage.setItem("role","admin");
-window.location="admin.html";
+alert("Admin login working");
 return;
 }
 
-// User login
 if(input.length===11 && !isNaN(input)){
-sessionStorage.setItem("role","user");
-sessionStorage.setItem("user",input);
-window.location="home.html";
+alert("User login working");
 return;
 }
 
 alert("Invalid Login");
 }
 </script>
+
+</body>
+</html>
